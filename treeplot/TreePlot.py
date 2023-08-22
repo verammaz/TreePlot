@@ -1,4 +1,4 @@
-from Tree import Tree
+from treeplot.Tree import Tree
 import plotly.graph_objects as go
 import plotly.io as pio
 
@@ -54,7 +54,7 @@ class TreePlot():
             self.tree.nid2depth[nid] = d
         
     
-    def plot(self, color='#6495ED', labels=True, title=None, show=True):
+    def plot(self, color='#6495ED', labels=True, title=None, show=True, arrows=False):
 
         Xe, Ye = [], []
 
@@ -62,7 +62,12 @@ class TreePlot():
             Xe += [self.pos[edge[0]][0], self.pos[edge[1]][0], None]
             Ye += [self.pos[edge[0]][1], self.pos[edge[1]][1], None]
         
-        self.fig.add_trace(go.Scatter(x=Xe, y=Ye, mode='lines',line=dict(color='#1D2339', width=3), 
+        self.fig.add_trace(go.Scatter(x=Xe, y=Ye, mode="lines+markers",
+        marker=dict(
+            symbol="arrow",
+            size=15,
+            angleref="previous",
+        ),line=dict(color='#1D2339', width=3), 
                                  hoverinfo='none', showlegend=False))
             
         self.fig.add_trace(go.Scatter(x=[self.pos[nid][0] for nid, node in self.tree.nid2node.items()], 
@@ -90,5 +95,6 @@ class TreePlot():
                 font=dict(color='#FFFFFF', size=12), showarrow=False))
         self.fig.update_layout(annotations=annotations)
     
+
     def save_fig(self, outpath):
         pio.write_image(self.fig, outpath)

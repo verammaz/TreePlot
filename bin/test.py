@@ -1,4 +1,5 @@
-from TreePlot import TreePlot
+from treeplot.TreePlot import TreePlot
+from treeplot.Tree import Tree
 
 p1 = {1:0, 2:1, 3:1, 4:1, 5:4, 6:4}
 
