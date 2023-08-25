@@ -1,5 +1,15 @@
 README.md
 setup.py
+TreePlot.egg-info/PKG-INFO
+TreePlot.egg-info/SOURCES.txt
+TreePlot.egg-info/dependency_links.txt
+TreePlot.egg-info/requires.txt
+TreePlot.egg-info/top_level.txt
+treePlot.egg-info/PKG-INFO
+treePlot.egg-info/SOURCES.txt
+treePlot.egg-info/dependency_links.txt
+treePlot.egg-info/requires.txt
+treePlot.egg-info/top_level.txt
 treeplot/Node.py
 treeplot/Tree.py
 treeplot/TreePlot.py
