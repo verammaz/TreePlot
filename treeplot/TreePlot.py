@@ -4,7 +4,7 @@ import plotly.io as pio
 
 class TreePlot():
 
-    def __init__(self, struct, node_size=60, orientation='h', sym=True):
+    def __init__(self, struct, node_size=60, orientation='h', top_down=True):
 
         self.tree = Tree(struct)
         self.node_size = node_size
@@ -18,10 +18,10 @@ class TreePlot():
 
         self.set_depths_of_nodes()
 
-        if sym:
-            self.set_ys()
+        if top_down:
+            self.set_ys_topdown()
         else:
-            self.set_ys_of_nodes()
+            self.set_ys_bottomup()
 
         self.pos = dict()
         if orientation == 'h':
@@ -33,7 +33,7 @@ class TreePlot():
 
 
 
-    def set_ys_of_nodes(self):
+    def set_ys_bottomup(self):
         for leaf in self.tree.leaves:
             leaf.set_y(float(self.tree.leaf2ord[leaf.id] * self.node_size))
         for node in self.tree.postorder_traversal():
@@ -57,7 +57,7 @@ class TreePlot():
         return res
     
 
-    def set_ys(self):
+    def set_ys_topdown(self):
         
         for node in self.tree.bfs_traversal():
             if node == self.tree.root:
@@ -113,7 +113,7 @@ class TreePlot():
     
     def plot(self, color='#6495ED', labels=True, title=None, show=True, arrows=False):
         
-        #TODO: implement arrows option to tree plot
+        #TODO: implement arrows option for tree plot
 
         Xe, Ye = [], []
 

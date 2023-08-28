@@ -18,7 +18,8 @@ class Node():
         self.parent = None
         self.pid = pid
         self.children = list()
-        self.children_ordered = list() #used for tree ladderizatino
+        self.children_ordered = list() 
+        self.children_ordered1 = list() #used for tree ladderization
         self.depth = 0 
         self.y = 0 # to be computed later
         self.subtree_h = 0

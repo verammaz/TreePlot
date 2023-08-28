@@ -13,6 +13,8 @@ p = dict()
 for i in range(len(parent_vec)):
     p[i+1] = int(parent_vec[i])
 
+print(p)
+
 
 
 
