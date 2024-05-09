@@ -2,12 +2,14 @@ from treeplot.Tree import Tree
 import plotly.graph_objects as go
 import plotly.io as pio
 
+import math
+
 class TreePlot():
 
-    def __init__(self, struct, node_size=60, orientation='h', top_down=True):
+    def __init__(self, struct, node_rad=0.35, orientation='h', top_down=True):
 
         self.tree = Tree(struct)
-        self.node_size = node_size
+        self.node_size = node_rad
         self.orient = orientation
 
         self.fig = go.Figure()
@@ -58,7 +60,6 @@ class TreePlot():
     
 
     def set_ys_topdown(self):
-        
         for node in self.tree.bfs_traversal():
             if node == self.tree.root:
                 node.set_y(float(0))
@@ -114,44 +115,47 @@ class TreePlot():
     def plot(self, color='#6495ED', labels=True, title=None, show=True, arrows=False):
         
         #TODO: implement arrows option for tree plot
-
-        Xe, Ye = [], []
-
-        for edge in self.edges:
-            Xe += [self.pos[edge[0]][0], self.pos[edge[1]][0], None]
-            Ye += [self.pos[edge[0]][1], self.pos[edge[1]][1], None]
         
-        self.fig.add_trace(go.Scatter(x=Xe, y=Ye, mode="lines",
-                                    line=dict(color='#1D2339', width=3), 
-                                    hoverinfo='none', showlegend=False))
+        self.fig.add_trace(go.Scatter())
+
+        for node in self.tree.nid2node.values():
+            self.fig.add_shape(type='circle', xref='x', yref='y', x0=self.pos[node.id][0]-self.node_size, y0=self.pos[node.id][1]-self.node_size,
+                               x1=self.pos[node.id][0]+self.node_size, y1=self.pos[node.id][1]+self.node_size, fillcolor=color)
+            if labels:
+                self.fig.add_annotation(dict(text=str(node.id), x=self.pos[node.id][0], y=self.pos[node.id][1], xref='x', yref='y',
+                                        font=dict(color='#FFFFFF', size=12), showarrow=False))
+            if node.is_root():
+                continue
             
-        self.fig.add_trace(go.Scatter(x=[self.pos[nid][0] for nid, node in self.tree.nid2node.items()], 
-                                 y=[self.pos[nid][1] for nid, node in self.tree.nid2node.items()], 
-                                 mode='markers', 
-                                 marker=dict(symbol='circle', size=self.node_size, color=color,
-                                 line=dict(color='#1D2339', width=1)), 
-                                 hoverinfo='none', showlegend=False))
+            theta = 0
+            x_off, y_off = 0, 0
+            if self.orient == 'h':
+                theta = math.atan(abs((self.pos[node.id][1]-self.pos[node.pid][1]) / (self.pos[node.id][0]-self.pos[node.pid][0])))
+                x_off = -self.node_size*math.cos(theta)
+                y_off = -self.node_size*math.sin(theta) if self.pos[node.pid][1]<self.pos[node.id][1] else self.node_size*math.sin(theta)
+            else:
+                theta = math.atan(abs((self.pos[node.id][0]-self.pos[node.pid][0]) / (self.pos[node.id][1]-self.pos[node.pid][1])))
+                x_off = -self.node_size*math.sin(theta) if self.pos[node.pid][0]<self.pos[node.id][0] else self.node_size*math.sin(theta)
+                y_off = self.node_size*math.cos(theta)
+            
+            self.fig.add_annotation(dict(
+                x=self.pos[node.id][0]+x_off, y=self.pos[node.id][1]+y_off,
+                ax=self.pos[node.pid][0]-x_off, ay=self.pos[node.pid][1]-y_off,
+                xref="x", yref="y", text="", axref="x", ayref="y",
+                arrowhead=4 if arrows else None, arrowwidth=3, arrowcolor='black', arrowsize=1, arrowside='end'))
+     
 
         self.fig.update_layout(title=title, xaxis=dict(showline=False, zeroline=False, showgrid=False, showticklabels=False), 
                                 yaxis=dict(showline=False, zeroline=False, showgrid=False, showticklabels=False))
         
-        #self.fig.update_layout(autosize=False, width=len(self.tree.leaf2ord)*self.node_size*10, height=len(self.tree.leaf2ord)*self.node_size*10)
+        fig_width = abs(min([self.pos[node.id][0] for node in self.tree.nid2node.values()]) - max([self.pos[node.id][0] for node in self.tree.nid2node.values()]))
+        fig_height = abs(min([self.pos[node.id][1] for node in self.tree.nid2node.values()]) - max([self.pos[node.id][1] for node in self.tree.nid2node.values()]))
         
-        if labels:
-            self.add_labels()
-
+        self.fig.update_layout(width=fig_width*100, height=fig_height*100, autosize=True, plot_bgcolor="white")
+        
         if show:
             self.fig.show()
 
-
-    def add_labels(self):
-        annotations = list()
-        for nid in self.tree.nid2node.keys():
-            annotations.append(
-                dict(text=str(nid), x=self.pos[nid][0], y=self.pos[nid][1], xref='x', yref='y',
-                font=dict(color='#FFFFFF', size=12), showarrow=False))
-        self.fig.update_layout(annotations=annotations)
-    
 
     def save_fig(self, outpath):
         pio.write_image(self.fig, outpath)

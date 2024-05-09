@@ -11,7 +11,7 @@ pip install . --user
 
 Basic Tutorial:
 
-Input: parent vector tree structure represenation in the form of a dict, with key=child_label and value=parent_label
+Input: parent vector tree structure representation in the form of a dict, with key=child_label and value=parent_label
 
 Node labels can be integers or strings
 
@@ -37,7 +37,7 @@ TreePlot init
 
 plot() method
 - `title` (`str`, default is `None`): specify tree plot title.
-- `color` (`str`, deafule is blue `#6495ED`): specify tree node color using hexcode or rgb format.
+- `color` (`str`, default is blue `#6495ED`): specify tree node color using hexcode or rgb format.
 - `labels` (`bool`, default it `True`): indicate whether to display labels on tree nodes.
 - `show` (`bool`, default is `True`): indicate whether to immediately export tree plot to HTML file and load it in browser.
 
