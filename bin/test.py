@@ -19,7 +19,8 @@ for i in range(len(parent_vec)):
     #print(node.children_ordered)
 
 
-treeplot = TreePlot(p2, orientation='h')
+treeplot = TreePlot(p2, orientation='h', top_down=False)
+print(treeplot.pos)
 treeplot.plot(show=True, arrows=True)
 treeplot.save_fig('test_tree.png')
 

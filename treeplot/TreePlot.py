@@ -37,7 +37,7 @@ class TreePlot():
 
     def set_ys_bottomup(self):
         for leaf in self.tree.leaves:
-            leaf.set_y(float(self.tree.leaf2ord[leaf.id] * self.node_size))
+            leaf.set_y(float(self.tree.leaf2ord[leaf.id] * self.node_size * 3))
         for node in self.tree.postorder_traversal():
             parent = node.parent
             y = 0
