@@ -32,7 +32,7 @@ Optional Parameters:
 
 TreePlot init
 - `orientation` (`str`, default is `h`): orientation of tree plot, horizontal (`h`) or vertical (`v`).
-- `node_size` (`int`, default is `50`): specify diameter of the circle for tree nodes.
+- `node_size` (`float`, default is `0.35`): specify radius of the circle for tree nodes.
 - `top_down` (`bool`, default is `True`): specify whether node spacing is computed in parent-->child or child-->parent direction.
 
 plot() method
