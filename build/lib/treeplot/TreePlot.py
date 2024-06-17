@@ -123,7 +123,7 @@ class TreePlot():
                                x1=self.pos[node.id][0]+self.node_size, y1=self.pos[node.id][1]+self.node_size, fillcolor=color)
             if labels:
                 self.fig.add_annotation(dict(text=str(node.id), x=self.pos[node.id][0], y=self.pos[node.id][1], xref='x', yref='y',
-                                        font=dict(color='#FFFFFF', size=12), showarrow=False))
+                                        font=dict(color='red', size=12), showarrow=False))
             if node.is_root():
                 continue
             
@@ -151,7 +151,7 @@ class TreePlot():
         fig_width = abs(min([self.pos[node.id][0] for node in self.tree.nid2node.values()]) - max([self.pos[node.id][0] for node in self.tree.nid2node.values()]))
         fig_height = abs(min([self.pos[node.id][1] for node in self.tree.nid2node.values()]) - max([self.pos[node.id][1] for node in self.tree.nid2node.values()]))
         
-        self.fig.update_layout(width=fig_width*100, height=fig_height*100, autosize=True, plot_bgcolor="white")
+        #self.fig.update_layout(width=fig_width*100, height=fig_height*100, autosize=False, plot_bgcolor="white")
         
         if show:
             self.fig.show()

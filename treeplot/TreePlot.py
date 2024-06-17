@@ -151,7 +151,7 @@ class TreePlot():
         fig_width = abs(min([self.pos[node.id][0] for node in self.tree.nid2node.values()]) - max([self.pos[node.id][0] for node in self.tree.nid2node.values()]))
         fig_height = abs(min([self.pos[node.id][1] for node in self.tree.nid2node.values()]) - max([self.pos[node.id][1] for node in self.tree.nid2node.values()]))
         
-        self.fig.update_layout(width=fig_width*100, height=fig_height*100, autosize=True, plot_bgcolor="white")
+        #self.fig.update_layout(width=fig_width*100, height=fig_height*100, autosize=False, plot_bgcolor="white")
         
         if show:
             self.fig.show()
